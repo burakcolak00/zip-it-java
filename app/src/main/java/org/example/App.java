@@ -3,6 +3,9 @@
  */
 package org.example;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
@@ -10,5 +13,54 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
+
+        List<Integer> nums1 = List.of(1, 3, 5, 7);
+        List<Integer> nums2 = List.of(2, 4, 6, 8);
+        List<Integer> mergedNumbers = zip(nums1, nums2);
+        System.out.println(mergedNumbers); // [1, 2, 3, 4, 5, 6, 7, 8]
+ 
+        List<String> colors1 = List.of("Red", "Green", "Blue");
+        List<String> colors2 = List.of("White", "Black", "Orange", "Pink", "Fuschia");
+        List<String> mergedWords = zip(colors1, colors2);
+        System.out.println(mergedWords); // ["Red", "White", "Green", "Black", "Blue", "Orange", "Pink", "Fuschia"]
+
+        List<String> colors = List.of("White", "Black", "Orange", "Pink");
+        List<Integer> nums = List.of(1, 3, 5, 7);
+ 
+        // This should create {"White" => 1, "Black" => 3, "Orange" => 5, "Pink" => 7}
+        HashMap<String, Integer> map = hashmapify(colors, nums);
+        System.out.println(map); // {White=1, Black=3, Orange=5, Pink=7}
+
+        List<String> cars = List.of("Toyota", "Honda", "Ford", "Mazda");
+
+        HashMap<String, String> map2 = hashmapify(cars, colors);
+        System.out.println(map2);
+    }
+
+    public static <T, U> HashMap<T, U> hashmapify(List<T> colors, List<U> nums) {
+
+        if (colors == null || nums == null || colors.size() != nums.size()) {
+            throw new IllegalArgumentException("Lists must be non-null and of the same size");
+        }
+
+        HashMap<T, U> map = new HashMap<>();
+        for (int i = 0; i < Math.min(colors.size(), nums.size()); i++) {
+            map.put(colors.get(i), nums.get(i));
+        }
+        return map;
+    }
+
+    public static <T> List<T> zip(List<T> list1, List<T> list2) {
+        int size = Math.max(list1.size(), list2.size());
+        List<T> result = new java.util.ArrayList<>(size * 2);
+        for (int i = 0; i < size; i++) {
+            if (i < list1.size()) {
+                result.add(list1.get(i));
+            }
+            if (i < list2.size()) {
+                result.add(list2.get(i));
+            }
+        }
+        return result;
     }
 }

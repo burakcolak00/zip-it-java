@@ -5,10 +5,131 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.HashMap;
+import java.util.List;
 
 class AppTest {
-    @Test void appHasAGreeting() {
+    @Test 
+    void appHasAGreeting() {
         App classUnderTest = new App();
         assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    }
+
+    @Test 
+    void testZipWithEqualSizes() {
+        List<Integer> nums1 = List.of(1, 3, 5);
+        List<Integer> nums2 = List.of(2, 4, 6);
+        List<Integer> expected = List.of(1, 2, 3, 4, 5, 6);
+        assertEquals(expected, App.zip(nums1, nums2), "Zipped lists should match expected output");
+    }
+
+    @Test 
+    void testZipWithDifferentSizes() {
+        List<Integer> nums1 = List.of(1, 3, 5);
+        List<Integer> nums2 = List.of(2, 4, 6, 8);
+        List<Integer> expected = List.of(1, 2, 3, 4, 5, 6, 8);
+        assertEquals(expected, App.zip(nums1, nums2), "Zipped lists should match expected output");
+    }
+
+    @Test 
+    void testZipStrings() {
+        List<String> colors1 = List.of("Red", "Green");
+        List<String> colors2 = List.of("White", "Black", "Orange");
+        List<String> expected = List.of("Red", "White", "Green", "Black", "Orange");
+        assertEquals(expected, App.zip(colors1, colors2), "Zipped string lists should match expected output");
+    }
+
+    @Test 
+    void testHashmapifyWithEqualSizes() {
+        List<String> colors = List.of("White", "Black", "Orange");
+        List<Integer> nums = List.of(1, 3, 5);
+        HashMap<String, Integer> expected = new HashMap<>();
+        expected.put("White", 1);
+        expected.put("Black", 3);
+        expected.put("Orange", 5);
+        assertEquals(expected, App.hashmapify(colors, nums), "Hashmap should match expected output");
+    }
+
+    @Test
+    void testHashmapifyWithDifferentSizes() {
+        List<String> colors = List.of("White", "Black", "Orange");
+        List<Integer> nums = List.of(1, 3);
+        assertThrows(IllegalArgumentException.class, () -> App.hashmapify(colors, nums), "Should throw exception for different sizes");
+    }
+
+    @Test
+    void testHashmapifyWithNullColorsList() {
+        List<String> colors = null;
+        List<Integer> nums = List.of(1, 3, 5);
+        assertThrows(IllegalArgumentException.class, () -> App.hashmapify(colors, nums), "Should throw exception for null colors list");
+    }
+
+    @Test
+    void testHashmapifyWithNullNumsList() {
+        List<String> colors = List.of("White", "Black", "Orange");
+        List<Integer> nums = null;
+        assertThrows(IllegalArgumentException.class, () -> App.hashmapify(colors, nums), "Should throw exception for null nums list");
+    }
+
+    @Test
+    void testHashmapifyWithNullLists() {
+        List<String> colors = null;
+        List<Integer> nums = null;
+        assertThrows(IllegalArgumentException.class, () -> App.hashmapify(colors, nums), "Should throw exception for both lists being null");
+    }
+
+    @Test
+    void testHashmapifyIntegerToString() {
+        List<Integer> nums = List.of(1, 2, 3);
+        List<String> strings = List.of("One", "Two", "Three");
+        HashMap<Integer, String> expected = new HashMap<>();
+        expected.put(1, "One");
+        expected.put(2, "Two");
+        expected.put(3, "Three");
+        assertEquals(expected, App.hashmapify(nums, strings), "Hashmap should match expected output for Integer to String mapping");
+    }
+
+    @Test
+    void testHashmapifyStringToString() {
+        List<String> keys = List.of("A", "B", "C");
+        List<String> values = List.of("Alpha", "Beta", "Gamma");
+        HashMap<String, String> expected = new HashMap<>();
+        expected.put("A", "Alpha");
+        expected.put("B", "Beta");
+        expected.put("C", "Gamma");
+        assertEquals(expected, App.hashmapify(keys, values), "Hashmap should match expected output for String to String mapping");
+    }
+
+    @Test
+    void testHashmapifyCharacterToInteger() {
+        List<Character> chars = List.of('A', 'B', 'C');
+        List<Integer> nums = List.of(1, 2, 3);
+        HashMap<Character, Integer> expected = new HashMap<>();
+        expected.put('A', 1);
+        expected.put('B', 2);
+        expected.put('C', 3);
+        assertEquals(expected, App.hashmapify(chars, nums), "Hashmap should match expected output for Character to Integer mapping");
+    }
+
+    @Test
+    void testHashmapifyDoubleToString() {
+        List<Double> doubles = List.of(1.1, 2.2, 3.3);
+        List<String> strings = List.of("One", "Two", "Three");
+        HashMap<Double, String> expected = new HashMap<>();
+        expected.put(1.1, "One");
+        expected.put(2.2, "Two");
+        expected.put(3.3, "Three");
+        assertEquals(expected, App.hashmapify(doubles, strings), "Hashmap should match expected output for Double to String mapping");
+    }
+
+    @Test
+    void testHashmapifyCharToDouble() {
+        List<Character> chars = List.of('X', 'Y', 'Z');
+        List<Double> doubles = List.of(1.1, 2.2, 3.3);
+        HashMap<Character, Double> expected = new HashMap<>();
+        expected.put('X', 1.1);
+        expected.put('Y', 2.2);
+        expected.put('Z', 3.3);
+        assertEquals(expected, App.hashmapify(chars, doubles), "Hashmap should match expected output for Character to Double mapping");
     }
 }
